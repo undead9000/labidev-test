@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+	<title>Тестовое</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-type">
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500, 700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="chosen/chosen.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="chosen/chosen.jquery.min.js"></script>
+	<!--script type="text/javascript" src="js/script.js"></script-->
+</head>
+<body>
+	<main>
+		<aside>
+			<form action="">
+				<div class="filter__block">
+					<b>Chose category</b>
+					<select name="category">
+						<option value="" disabled>Best Match</option>
+						<option value="">1</option>
+						<option value="">2</option>
+						<option value="">3</option>
+						<option value="">4</option>
+					</select>
+				</div>
+				<div class="filter__block">
+					<b>Chose subcategory</b>
+					<input type="checkbox" name="subcategory" id="all_sub"><label for="all_sub">All subcategories</label><br />
+					<input type="checkbox" name="subcategory" id="data_sub"><label for="data_sub">Data entry <span>(1 306)</span></label><br />
+					<input type="checkbox" name="subcategory" id="personal_sub"><label for="personal_sub">Personal Assistant <span>(1 907)</span></label><br />
+					<input type="checkbox" name="subcategory" id="research_sub"><label for="research_sub">Web Research <span>(972)</span></label><br />
+					<input type="checkbox" name="subcategory" id="response_sub"><label for="response_sub">Email Response Handling <span>(80)</span></label><br />
+					<input type="checkbox" name="subcategory" id="trans_sub"><label for="trans_sub">Transcription <span>(307)</span></label><br />
+					<input type="checkbox" name="subcategory" id="other_sub"><label for="other_sub">Other - Administrative support</label>
+				</div>
+				<div class="filter__block filter__rating">
+					<b>Client Rating</b>
+					<input type="radio" name="rating" id="rating-any" value="any"><label for="rating-any">Any stars</label><br />
+					<input type="radio" name="rating" id="rating-5" value="5"><label for="rating-5">5 stars <span>(930)</span></label><br />
+					<input type="radio" name="rating" id="rating-4_5" value="4_5"><label for="rating-4_5">4.5 stars und Up <span>(2 591)</span></label><br />
+					<input type="radio" name="rating" id="rating-4" value="4"><label for="rating-4">4 stars and Up <span>(1 546)</span></label><br />
+					<input type="checkbox" id="rating_include"><label for="rating_include">Include unrated freelancers <br /><span>(1 784)</span></label>
+				</div>
+				<div class="filter__block">
+					<b>Budget</b>
+					<select name="category">
+						<option value="" disabled>Any budget</option>
+						<option value="">1</option>
+						<option value="">2</option>
+						<option value="">3</option>
+						<option value="">4</option>
+					</select>
+				</div>
+				<div class="filter__block">
+					<b>Delivery</b>
+					<select name="category">
+						<option value="" disabled>Any..</option>
+						<option value="">1</option>
+						<option value="">2</option>
+						<option value="">3</option>
+						<option value="">4</option>
+					</select>
+				</div>
+				<div class="filter__block">
+					<b>Location</b>
+					<select name="category">
+						<option value="" disabled>Any location</option>
+						<option value="">1</option>
+						<option value="">2</option>
+						<option value="">3</option>
+						<option value="">4</option>
+					</select>
+				</div>
+			</form>
+		</aside>
+		<section id="app">
+			<div class="post" v-for="(post, index) in posts">
+				<h2 class="post__title">{{post.name}}</h2>
+				<ul class="post__options">
+					<li>Fixed: <span>{{post.fixed}}</span></li>
+					<li>Budget: <span>{{post.budget}}</span></li>
+					<li>Delivery: <span>{{post.delivery}}</span></li>
+					<li>Posted: <span>{{post.posted}}</span></li>
+					<li>Ends: <span>{{post.ends}}</span></li>
+					<li class="post__last-option">{{post.proposals}} Proposals</li>
+				</ul>
+				<div class="post__description">
+					{{post.description}} <a class="post__more" href="/">more...</a>
+				</div>
+				<div class="post__skills">
+					<div class="post__category">
+						Category: <span>{{post.category}}</span>
+					</div>
+					Skills
+					<ul>
+						<li v-for="skill in post.slils">
+							{{skill.name}}
+						</li>
+					</ul>
+					<a href="/" class="post__more-skills">18 more</a>
+				</div>
+				<div class="post__client">
+					Client: <span>{{post.client.country}}</span>
+					<div class="post__rating">
+						{{post.client.rating}}
+					</div>
+					<ul class="post__stars">
+						<li class="active"></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<script>
+        $('select').chosen();
+        const vue = new Vue({
+            el: '#app',
+			data: () =>( {
+				posts: [],
+			}),
+            mounted() {
+                axios
+                    .get('https://api.myjson.com/bins/125uyv')
+                    .then(response => {
+                        this.posts = response.data.posts;
+                    });
+            }
+		});
+	</script>
+</body>
+</html>
